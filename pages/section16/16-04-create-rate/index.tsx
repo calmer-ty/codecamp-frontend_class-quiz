@@ -8,24 +8,23 @@ export default function CreateRate(): JSX.Element {
   const Star = styled.div`
     width: 50px;
     height: 50px;
-    background-image: url(${(props: { active: boolean }) =>
+    background-image: url(${(props) =>
       props.active
-        ? "../images/section16/star_on.png"
-        : "../images/section16/star_off.png"});
+        ? "/images/section16/star_on.png"
+        : "/images/section16/star_off.png"});
     background-position: center;
     background-size: contain;
     cursor: pointer;
+    // background-color: #f00;
   `;
   const starPoint = [1, 2, 3, 4, 5];
 
-  const [rating, setRating] = useState(0);
+  const [isActive, setIsActive] = useState(false);
 
-  const onClickStar = (num) => {
-    setRating(num);
-    console.log(num);
+  const onClickStarPoint = (num) => {
+    setIsActive(num);
   };
-  console.log(rating);
-
+  console.log(isActive);
   return (
     <>
       <Wrapeer>
@@ -33,8 +32,8 @@ export default function CreateRate(): JSX.Element {
           return (
             <Star
               key={num}
-              active={num <= rating}
-              onClick={() => onClickStar(num)}
+              active={num <= isActive}
+              onClick={() => onClickStarPoint(num)}
             />
           );
         })}
