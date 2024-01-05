@@ -1,0 +1,20 @@
+import type { AppProps } from "next/app";
+import ApolloSetting from "../src/commons/apollo";
+import Layout from "../src/commons/layout";
+import { Global } from "@emotion/react";
+import { globalStyles } from "../src/commons/styles/globalStyles";
+
+export default function App({ Component }: AppProps): JSX.Element {
+  return (
+    <div>
+      <ApolloSetting>
+        <>
+          <Global styles={globalStyles} />
+          <Layout>
+            <Component />
+          </Layout>
+        </>
+      </ApolloSetting>
+    </div>
+  );
+}
