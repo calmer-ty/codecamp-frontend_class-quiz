@@ -24,7 +24,7 @@ export default function Layout(props: ILayoutProps): JSX.Element {
       <LayoutNavigation />
       <div style={{ display: "flex" }}>
         <LayoutSidebar />
-        <div style={{ width: "60%" }}>{props.children}</div>
+        <div style={{ width: "70%" }}>{props.children}</div>
       </div>
       <LayoutFooter />
     </>
