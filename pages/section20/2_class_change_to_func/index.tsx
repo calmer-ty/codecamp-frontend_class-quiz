@@ -34,9 +34,6 @@ export default function MyComponent(): JSX.Element {
     };
   }, []);
 
-  // const onClickButton = () => {
-  //   setCount((prev: { count: number }) => ({ count: prev.count + 1 }));
-  // };
   const onClickCounter = (): void => {
     setCount((prev) => prev + 1);
   };
@@ -46,7 +43,6 @@ export default function MyComponent(): JSX.Element {
   };
 
   // render() {
-  console.log("마운트 시작");
   return (
     <>
       <div>카운트: {count}</div>
