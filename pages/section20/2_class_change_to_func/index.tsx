@@ -2,23 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function MyComponent(): JSX.Element {
-  //   state = {
-  //     count: 0,
-  //   };
   const [count, setCount] = useState(0);
   const router = useRouter();
-
-  // componentDidMount() {
-  //   console.log("컴포넌트가 마운트됐습니다~");
-  // }
-
-  // componentDidUpdate() {
-  //   console.log("컴포넌트가 변경됐습니다~");
-  // }
-
-  // componentWillUnmount() {
-  //   alert("컴포넌트가 제거됩니다~");
-  // }
 
   useEffect(() => {
     console.log("컴포넌트가 마운트됐습니다~");
