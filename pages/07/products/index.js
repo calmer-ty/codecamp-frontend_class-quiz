@@ -31,10 +31,10 @@ export default function ClassQuiz_07() {
       variables: { productId: event.target.id },
       refetchQueries: [{ query: FETCH_PRODUCTS }],
     });
-    console.log(event.target.id)
+    console.log(event.target.id);
   };
 
-  console.log(data?.fetchProducts.map((el)=> el));
+  console.log(data?.fetchProducts.map((el) => el));
   return (
     <div>
       {data?.fetchProducts.map((el) => (
