@@ -15,29 +15,6 @@ const UPLOAD_FILE = gql`
 `;
 
 export default function UploadItem(): JSX.Element {
-  const [uploadFile] = useMutation<
-    Pick<IMutation, "uploadFile">,
-    IMutationUploadFileArgs
-  >(UPLOAD_FILE);
-
-  const [imageUrl, setImageUrl] = useState("");
-
-  const fileRef = useRef<HTMLInputElement>(null);
-
-  const onChangeFile = async (
-    event: ChangeEvent<HTMLInputElement>
-  ): Promise<void> => {
-    const file = event.target.files?.[0];
-
-    const isValid = checkValidation(file);
-    if (!isValid) return;
-
-    const result = await uploadFile({ variables: { file } });
-    setImageUrl(result.data?.uploadFile.url ?? "");
-
-    console.log(imageUrl);
-    setIsUpload(true);
-  };
   const [isUpload, setIsUpload] = useState(false);
 
   const onClickImage = (): void => {
