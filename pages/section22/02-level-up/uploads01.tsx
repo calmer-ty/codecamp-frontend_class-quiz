@@ -2,8 +2,20 @@ import { type ChangeEvent, useRef } from "react";
 import { checkValidation } from "../../../src/commons/libraries/validation";
 import styled from "@emotion/styled";
 
+const UploadImg = styled.img`
+  width: 150px;
+  height: 150px;
+`;
+const UploadButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+`;
 const UploadInput = styled.input`
-  //   display: none;
+  display: none;
 `;
 
 export default function Uploads01(props: any): JSX.Element {
@@ -31,6 +43,8 @@ export default function Uploads01(props: any): JSX.Element {
       // 파일 자체, 부모에서 map으로 뿌려줄 때의 인덱스, 파일을 읽어서 얻은 미리보기 url
       props.onChangeFiles(file, props.index, data.target?.result as string);
     };
+
+    console.log(fileReader);
   };
   const fileUrl = props.fileUrls[props.index];
 
@@ -39,12 +53,12 @@ export default function Uploads01(props: any): JSX.Element {
       {/* // fileUrls 배열에서 해당 인덱스 위치에 값이 있다면 이미지를 보여주고 */}
       {/* // 없다면 추가 버튼을 보여주게 됩니다. */}
       {fileUrl ? (
-        <img onClick={onClickUpload} src={fileUrl} />
+        <UploadImg onClick={onClickUpload} src={fileUrl} />
       ) : (
-        <div onClick={onClickUpload}>
+        <UploadButton onClick={onClickUpload}>
           <span>+</span>
           <span>Upload</span>
-        </div>
+        </UploadButton>
       )}
       <UploadInput type="file" ref={fileRef} onChange={onChangeFile} />
     </>

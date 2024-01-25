@@ -25,7 +25,10 @@ export default function BoardWrite(): JSX.Element {
     // 변경된 배열을 state에 저장해줍니다.
     setFiles([...newFiles]);
     setFileUrls([...newFileUrls]);
+
+    // console.log
   }
+  console.log(files);
 
   return (
     <BoardWriteUI

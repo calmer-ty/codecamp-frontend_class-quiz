@@ -1,4 +1,5 @@
-import { type ChangeEvent, useRef } from "react";
+import { useRef } from "react";
+import type { ChangeEvent } from "react";
 import Uploads01UI from "./Uploads01.presenter";
 import { checkValidation } from "../../../src/commons/libraries/validation";
 import type { IUploads01Props } from "./types";

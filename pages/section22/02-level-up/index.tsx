@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Uploads01 from "./uploads01";
+import { Rate } from "antd";
 
 export default function LevelUpPage(): JSX.Element {
   // File 자체를 저장하는 state
@@ -26,23 +27,25 @@ export default function LevelUpPage(): JSX.Element {
     setFiles([...newFiles]);
     setFileUrls([...newFileUrls]);
   };
+  // console.log([...files]);
 
   return (
     <>
       <div>
         <span>사진첨부</span>
-
+      </div>
+      <div style={{ display: "flex" }}>
         {/* 항상 3개의 컴포넌트가 뿌려집니다.
 	      // 이미지를 보여줄지, 추가 버튼을 보여줄지는 안에서 조건부로 구분합니다. */}
+        {new Array(3).fill(1).map((data, index) => (
+          <Uploads01
+            key={`${data}_${index}`}
+            index={index}
+            onChangeFiles={onChangeFiles}
+            fileUrls={fileUrls}
+          />
+        ))}
       </div>
-      {new Array(3).fill(1).map((data, index) => (
-        <Uploads01
-          key={`${data}_${index}`}
-          index={index}
-          onChangeFiles={onChangeFiles}
-          fileUrls={fileUrls}
-        />
-      ))}
     </>
   );
 }
