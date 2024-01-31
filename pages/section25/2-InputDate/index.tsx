@@ -1,47 +1,45 @@
-import { useState } from "react";
+import { type ChangeEvent, useState } from "react";
 
-const getLastDate = (yyyy: string, mm: string) => {
+const getLastDate = (yyyy, mm) => {
   if (Number(mm) === 11) return new Date(Number(yyyy) + 1, 1, 0).getDate();
   return new Date(Number(yyyy), Number(mm), 0).getDate();
 };
 
-const getValidDate = (valueArr) => {
-  console.log(valueArr);
+const getValidDate = (valueArr): void => {
   let [yyyy, mm, dd] = valueArr
     .join("")
     .split(".")
     .filter((data) => data !== "")
     .map((data) => data);
-  mm = Number(mm) > 12 ? 12 : mm;
-  dd = Number(dd) > getLastDate(yyyy, mm) ? getLastDate(yyyy, mm) : dd;
-  return yyyy + (mm ? `.${String(mm)}` : "" + (dd ? `.${String(dd)}` : ""));
+
+  console.log(valueArr);
+  mm = mm > 12 ? 12 : mm;
+  dd = dd > getLastDate(yyyy, mm) ? getLastDate(yyyy, mm) : dd;
+  return yyyy + (mm ? `.${mm}` : "") + (dd ? `.${dd}` : "");
 };
+
 export default function InputDate(): JSX.Element {
   const [value, setValue] = useState("");
+  const onChangeInput = (event: ChangeEvent<HTMLInputElement>): void => {
+    const valueArr: string[] = [];
+    const inputValue = event.target.value;
 
-  const onChangeInput = (event: any) => {
-    const valueArr = [];
-    const nextValue = event.target.value;
-
-    if (nextValue.length > value.length) {
-      const nextPureValue = nextValue.replaceAll(".", "").split("");
-      nextPureValue.forEach((data: string, index: number) => {
+    if (inputValue.length > value.length) {
+      const eachValue = inputValue.replaceAll(".", "").split("");
+      eachValue.forEach((data: string, index: number) => {
         valueArr.push(data);
         if (index + 1 === 4 || index + 1 === 6) valueArr.push(".");
       });
+
       //   setValue(valueArr.join(""));
       setValue(getValidDate(valueArr));
-    }
-    //
-    else {
-      const nextPureValue = nextValue.replaceAll(".", "").split("");
-      nextPureValue.forEach((data: string, index: number) => {
+    } else {
+      const eachValue = inputValue.replaceAll(".", "").split("");
+      eachValue.forEach((data: string, index: number) => {
         valueArr.push(data);
-        if (nextPureValue.length > 6 && (index + 1 === 4 || index + 1 === 6)) {
+        if (eachValue.length > 6 && (index + 1 === 4 || index + 1 === 6))
           valueArr.push(".");
-        } else if (nextPureValue.length > 4 && index + 1 === 4) {
-          valueArr.push(".");
-        }
+        else if (eachValue.length > 4 && index + 1 === 4) valueArr.push(".");
       });
       setValue(valueArr.join(""));
     }
@@ -49,13 +47,7 @@ export default function InputDate(): JSX.Element {
 
   return (
     <>
-      <input
-        type="text"
-        value={value}
-        placeholder="YYYY.MM.DD"
-        maxLength={10}
-        onChange={onChangeInput}
-      />
+      <input type="text" onChange={onChangeInput} value={value} />
     </>
   );
 }
