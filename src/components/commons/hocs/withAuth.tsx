@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-export const withAuth = (WithAuth: any) => (props: any) => {
+export const withAuth = (MainPage: any) => (props: any) => {
   const router = useRouter();
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
@@ -10,5 +10,5 @@ export const withAuth = (WithAuth: any) => (props: any) => {
     }
   });
 
-  return <WithAuth {...props} />;
+  return <MainPage {...props} />;
 };
