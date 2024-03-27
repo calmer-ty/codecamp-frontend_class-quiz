@@ -1,72 +1,27 @@
-import { gql, useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import type { ChangeEvent } from "react";
-import type {
-  IMutation,
-  IMutationLoginUserExampleArgs,
-} from "../../../src/commons/types/generated/types";
-import { useRecoilState } from "recoil";
-import { accessTokenState } from "../../../src/commons/stores";
+import { gql, useApolloClient } from "@apollo/client";
 
-const LOGIN_USER = gql`
-  mutation loginUserExample($email: String!, $password: String!) {
-    loginUserExample(email: $email, password: $password) {
-      accessToken
+const FETCH_USER_LOGGED_IN = gql`
+  query {
+    fetchUserLoggedIn {
+      email
+      name
     }
   }
 `;
-
 export default function LoginPage(): JSX.Element {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const client = useApolloClient();
 
-  const onChangeEmail = (event: ChangeEvent<HTMLInputElement>): void => {
-    setEmail(event.target.value);
-  };
-  const onChangePassword = (event: ChangeEvent<HTMLInputElement>): void => {
-    setPassword(event.target.value);
-  };
-
-  const [, setAccessToken] = useRecoilState(accessTokenState);
-
-  const [loginUserExample] = useMutation<
-    Pick<IMutation, "loginUserExample">,
-    IMutationLoginUserExampleArgs
-  >(LOGIN_USER);
-
-  const onClickLogin = async (): Promise<void> => {
-    try {
-      // 1. 로그인 뮤테이션 날려서 accessToken 받아오기
-      const result = await loginUserExample({
-        variables: {
-          email,
-          password,
-        },
-      });
-      const accessToken = result.data?.loginUserExample.accessToken;
-      console.log(accessToken);
-
-      // 2. 받아온 accessToken을 globalState에 저장하기
-      if (accessToken === undefined) {
-        alert("로그인에 실패했습니다. 다시 시도해주세요!");
-        return;
-      }
-      setAccessToken(accessToken);
-
-      // 3. 로그인 성공 페이지로 이동하기
-      void router.push("/section30/30-01-login-refreshToken-success");
-    } catch (error) {
-      if (error instanceof Error) alert(error.message);
-    }
+  // useQuery를 클릭 버튼으로 제어하는 방법
+  const onClickButton = async (): Promise<void> => {
+    const result = await client.query({
+      query: FETCH_USER_LOGGED_IN,
+    });
+    console.log(result);
   };
 
   return (
     <>
-      이메일: <input type="text" onChange={onChangeEmail} />
-      비밀번호: <input type="password" onChange={onChangePassword} />
-      <button onClick={onClickLogin}>로그인</button>
+      <button onClick={onClickButton}>클릭하세요</button>
     </>
   );
 }

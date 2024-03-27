@@ -2,10 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import type { ChangeEvent } from "react";
-import type {
-  IMutation,
-  IMutationLoginUserExampleArgs,
-} from "../../../src/commons/types/generated/types";
+import type { IMutation, IMutationLoginUserExampleArgs } from "../../../src/commons/types/generated/types";
 import { useRecoilState } from "recoil";
 import { accessTokenState } from "../../../src/commons/stores";
 
@@ -31,10 +28,7 @@ export default function LoginPage(): JSX.Element {
 
   const [, setAccessToken] = useRecoilState(accessTokenState);
 
-  const [loginUserExample] = useMutation<
-    Pick<IMutation, "loginUserExample">,
-    IMutationLoginUserExampleArgs
-  >(LOGIN_USER);
+  const [loginUserExample] = useMutation<Pick<IMutation, "loginUserExample">, IMutationLoginUserExampleArgs>(LOGIN_USER);
 
   const onClickLogin = async (): Promise<void> => {
     try {
@@ -56,7 +50,7 @@ export default function LoginPage(): JSX.Element {
       setAccessToken(accessToken);
 
       // 3. 로그인 성공 페이지로 이동하기
-      void router.push("/section30/30-01-login-refreshToken-success");
+      void router.push("/section33/login-refreshToken-success");
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }

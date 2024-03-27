@@ -1,16 +1,8 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  ApolloProvider,
-  InMemoryCache,
-} from "@apollo/client";
+import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 import { createUploadLink } from "apollo-upload-client";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
-import {
-  accessTokenState,
-  restoreAccessTokenLoadable,
-} from "../../../commons/stores";
+import { accessTokenState, restoreAccessTokenLoadable } from "../../../commons/stores";
 import { useEffect } from "react";
 
 interface IApolloSetting {
