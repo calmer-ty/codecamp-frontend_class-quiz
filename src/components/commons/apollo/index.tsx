@@ -3,6 +3,7 @@ import {
   ApolloLink,
   ApolloProvider,
   InMemoryCache,
+  fromPromise,
 } from "@apollo/client";
 
 import { createUploadLink } from "apollo-upload-client";
@@ -13,6 +14,7 @@ import {
 } from "../../../commons/stores";
 import { useEffect } from "react";
 import { onError } from "@apollo/client/link/error";
+import { getAccessToken } from "../../../commons/libraries/getAccessToken";
 
 interface IApolloSetting {
   children: JSX.Element;
@@ -38,11 +40,22 @@ export default function ApolloSetting(props: IApolloSetting): JSX.Element {
       for (const err of graphQLErrors) {
         // 1-2. 해당 에러가 토큰만료 에러인지 체크
         if (err.extensions.code === "UNAUTHENTICATED") {
-          // 2. 리프레시 토큰으로 accessToken 재발급 받기
+          return fromPromise(
+            // 2. 리프레시 토큰으로 accessToken 재발급 받기
+            getAccessToken().then((newAccessToken) => {
+              setAccessToken(newAccessToken ?? "");
+              // 3. 재발급 받은 accessToken으로 방금 실패한 쿼리 재요청하기
+              operation.setContext({
+                headers: {
+                  ...operation.getContext().headers,
+                  Authorization: `Bearer ${newAccessToken}`,
+                },
+              });
+            })
+          ).flatMap(() => forward(operation));
         }
       }
     }
-    // 3. 재발급 받은 accessToken으로 방금 실패한 쿼리 재요청하기
   });
 
   const uploadLink = createUploadLink({
