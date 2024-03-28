@@ -2,7 +2,10 @@ import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import type { ChangeEvent } from "react";
-import type { IMutation, IMutationLoginUserExampleArgs } from "../../../src/commons/types/generated/types";
+import type {
+  IMutation,
+  IMutationLoginUserExampleArgs,
+} from "../../../src/commons/types/generated/types";
 import { useRecoilState } from "recoil";
 import { accessTokenState } from "../../../src/commons/stores";
 
@@ -18,6 +21,12 @@ export default function LoginPage(): JSX.Element {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [, setAccessToken] = useRecoilState(accessTokenState);
+
+  const [loginUserExample] = useMutation<
+    Pick<IMutation, "loginUserExample">,
+    IMutationLoginUserExampleArgs
+  >(LOGIN_USER);
 
   const onChangeEmail = (event: ChangeEvent<HTMLInputElement>): void => {
     setEmail(event.target.value);
@@ -25,10 +34,6 @@ export default function LoginPage(): JSX.Element {
   const onChangePassword = (event: ChangeEvent<HTMLInputElement>): void => {
     setPassword(event.target.value);
   };
-
-  const [, setAccessToken] = useRecoilState(accessTokenState);
-
-  const [loginUserExample] = useMutation<Pick<IMutation, "loginUserExample">, IMutationLoginUserExampleArgs>(LOGIN_USER);
 
   const onClickLogin = async (): Promise<void> => {
     try {
